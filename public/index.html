@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RagBot RAG Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Include Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fa-solid fa-layer-group"></i>
+                    <span>RagBot</span>
+                </div>
+                <button class="mobile-toggle" id="mobileToggle">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+
+            <ul class="nav-links">
+                <li class="nav-item active" data-page="dashboard">
+                    <a href="#dashboard"><i class="fa-solid fa-chart-pie"></i> Dashboard</a>
+                </li>
+                <li class="nav-item" data-page="chat">
+                    <a href="#chat"><i class="fa-solid fa-message"></i> Chat with AI</a>
+                </li>
+                <li class="nav-item" data-page="upload">
+                    <a href="#upload"><i class="fa-solid fa-cloud-arrow-up"></i> Upload Documents</a>
+                </li>
+                <li class="nav-item" data-page="library">
+                    <a href="#library"><i class="fa-solid fa-folder-open"></i> Document Library</a>
+                </li>
+                <li class="nav-item" data-page="history">
+                    <a href="#history"><i class="fa-solid fa-clock-rotate-left"></i> Chat History</a>
+                </li>
+                <li class="nav-item" data-page="settings">
+                    <a href="#settings"><i class="fa-solid fa-gear"></i> Settings</a>
+                </li>
+            </ul>
+
+            <div class="user-profile">
+                <img src="https://ui-avatars.com/api/?name=Admin+User&background=10b981&color=fff" alt="User Avatar"
+                    class="avatar">
+                <div class="user-info">
+                    <h4>Admin User</h4>
+                    <p>Workspace Owner</p>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Dashboard Page -->
+            <section id="page-dashboard" class="page active">
+                <header class="page-header">
+                    <h1>Dashboard Overview</h1>
+                    <p>Monitor your RAG pipeline performance and vector database usage.</p>
+                </header>
+                <div class="dashboard-grid">
+                    <div class="metric-card">
+                        <div class="metric-icon"><i class="fa-solid fa-database"></i></div>
+                        <div class="metric-info">
+                            <h3>Total Documents</h3>
+                            <p class="metric-value">1,248</p>
+                            <span class="trend positive"><i class="fa-solid fa-arrow-up"></i> 12% from last week</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon"><i class="fa-solid fa-microchip"></i></div>
+                        <div class="metric-info">
+                            <h3>Vectors Embedded</h3>
+                            <p class="metric-value">4.2M</p>
+                            <span class="trend positive"><i class="fa-solid fa-arrow-up"></i> 5% from last week</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon"><i class="fa-solid fa-comment-dots"></i></div>
+                        <div class="metric-info">
+                            <h3>AI Queries</h3>
+                            <p class="metric-value">8,932</p>
+                            <span class="trend neutral"><i class="fa-solid fa-minus"></i> 0% from last week</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon"><i class="fa-solid fa-bolt"></i></div>
+                        <div class="metric-info">
+                            <h3>Avg. Latency</h3>
+                            <p class="metric-value">240ms</p>
+                            <span class="trend negative"><i class="fa-solid fa-arrow-down"></i> 18ms from last
+                                week</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Chat Page -->
+            <section id="page-chat" class="page">
+                <header class="page-header">
+                    <h1>Chat with AI</h1>
+                    <p>Query your document knowledge base using the RagBot RAG engine.</p>
+                </header>
+                <div class="chat-interface">
+                    <div class="chat-messages" id="chatMessages">
+                        <div class="message ai-message">
+                            <div class="message-avatar"><i class="fa-solid fa-robot"></i></div>
+                            <div class="message-bubble">
+                                <p>Hello! I am connected to your RagBot pipeline. You can ask me questions about your
+                                    uploaded documents. How can I assist you today?</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="typing-indicator" id="typingIndicator" style="display: none;">
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                    </div>
+                    <div class="chat-input-area">
+                        <textarea id="chatInput"
+                            placeholder="Ask a question about your documents... (Press Enter to send)"
+                            rows="1"></textarea>
+                        <button id="sendMessageBtn" class="btn-primary"><i class="fa-solid fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Upload Documents Page -->
+            <section id="page-upload" class="page">
+                <header class="page-header">
+                    <h1>Upload Documents</h1>
+                    <p>Add new knowledge to your vector database.</p>
+                </header>
+                <div class="upload-container">
+                    <div class="upload-dropzone" id="dropzone">
+                        <div class="dropzone-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+                        <h3>Drag & Drop files here</h3>
+                        <p>or</p>
+                        <label for="fileInput" class="btn-secondary">Browse Files</label>
+                        <input type="file" id="fileInput" multiple accept=".pdf,.txt,.doc,.docx,.csv">
+                        <p class="upload-hint">Supported formats: PDF, TXT, DOCX, CSV. Max size: 50MB.</p>
+                    </div>
+                    <div class="upload-list" id="uploadList">
+                        <!-- Uploaded files will appear here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Document Library Page -->
+            <section id="page-library" class="page">
+                <header class="page-header flex-between">
+                    <div>
+                        <h1>Document Library</h1>
+                        <p>Manage files currently indexed in your RAG pipeline.</p>
+                    </div>
+                    <div class="search-bar">
+                        <i class="fa-solid fa-search"></i>
+                        <input type="text" placeholder="Search documents...">
+                    </div>
+                </header>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Size</th>
+                                <th>Status</th>
+                                <th>Date Added</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><i class="fa-solid fa-file-pdf type-icon"></i> Q3_Financial_Report.pdf</td>
+                                <td>PDF</td>
+                                <td>2.4 MB</td>
+                                <td><span class="badge success">Indexed</span></td>
+                                <td>Oct 24, 2023</td>
+                                <td><button class="btn-icon"><i class="fa-solid fa-ellipsis-vertical"></i></button></td>
+                            </tr>
+                            <tr>
+                                <td><i class="fa-solid fa-file-word type-icon"></i> Employee_Handbook_v2.docx</td>
+                                <td>DOCX</td>
+                                <td>1.1 MB</td>
+                                <td><span class="badge success">Indexed</span></td>
+                                <td>Oct 15, 2023</td>
+                                <td><button class="btn-icon"><i class="fa-solid fa-ellipsis-vertical"></i></button></td>
+                            </tr>
+                            <tr>
+                                <td><i class="fa-solid fa-file-csv type-icon"></i> user_feedback_2023.csv</td>
+                                <td>CSV</td>
+                                <td>5.8 MB</td>
+                                <td><span class="badge warning">Processing</span></td>
+                                <td>Today, 10:45 AM</td>
+                                <td><button class="btn-icon"><i class="fa-solid fa-ellipsis-vertical"></i></button></td>
+                            </tr>
+                            <tr>
+                                <td><i class="fa-solid fa-file-alt type-icon"></i> meeting_notes_sprint4.txt</td>
+                                <td>TXT</td>
+                                <td>12 KB</td>
+                                <td><span class="badge success">Indexed</span></td>
+                                <td>Yesterday</td>
+                                <td><button class="btn-icon"><i class="fa-solid fa-ellipsis-vertical"></i></button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Chat History Page -->
+            <section id="page-history" class="page">
+                <header class="page-header">
+                    <h1>Chat History</h1>
+                    <p>Review past interactions with the AI.</p>
+                </header>
+                <div class="history-list">
+                    <div class="history-card">
+                        <div class="history-header">
+                            <h4>"Summary of Q3 Financial Report"</h4>
+                            <span>Today, 2:30 PM</span>
+                        </div>
+                        <p class="history-excerpt">User asked about the main takeaways from the Q3 financial report. AI
+                            provided a 3-point summary emphasizing revenue growth...</p>
+                        <button class="btn-text">View Full Thread <i class="fa-solid fa-arrow-right"></i></button>
+                    </div>
+                    <div class="history-card">
+                        <div class="history-header">
+                            <h4>"PTO Policy for Remote Workers"</h4>
+                            <span>Yesterday, 11:15 AM</span>
+                        </div>
+                        <p class="history-excerpt">Query regarding the newly updated employee handbook. AI extracted the
+                            specific clauses relating to remote work PTO accrual...</p>
+                        <button class="btn-text">View Full Thread <i class="fa-solid fa-arrow-right"></i></button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings Page -->
+            <section id="page-settings" class="page">
+                <header class="page-header">
+                    <h1>Settings</h1>
+                    <p>Configure your RAG pipeline and application preferences.</p>
+                </header>
+                <div class="settings-grid">
+                    <div class="settings-card">
+                        <h3>Model Configuration</h3>
+                        <div class="form-group">
+                            <label>LLM Provider</label>
+                            <select class="form-control">
+                                <option>OpenAI (GPT-4o)</option>
+                                <option>Anthropic (Claude 3.5 Sonnet)</option>
+                                <option>Google (Gemini 1.5 Pro)</option>
+                                <option>Local (Llama 3)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Temperature (Creativity vs Precision) - <span id="tempValue">0.2</span></label>
+                            <input type="range" class="form-slider" id="tempSlider" min="0" max="1" step="0.1"
+                                value="0.2">
+                            <div class="slider-labels">
+                                <span>Precise</span>
+                                <span>Creative</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-card">
+                        <h3>Retrieval Settings</h3>
+                        <div class="form-group">
+                            <label>Top-K Chunks to Retrieve</label>
+                            <input type="number" class="form-control" value="5" min="1" max="20">
+                        </div>
+                        <div class="form-group">
+                            <label>Similarity Threshold</label>
+                            <input type="range" class="form-slider" min="0" max="1" step="0.05" value="0.75">
+                        </div>
+                        <div class="form-group toggle-group">
+                            <label>Enable Hybrid Search (Keyword + Vector)</label>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="settings-card">
+                        <h3>System Settings</h3>
+                        <div class="form-group toggle-group">
+                            <label>Dark Mode</label>
+                            <label class="switch">
+                                <input type="checkbox" id="darkModeToggle">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                        <div class="form-group toggle-group">
+                            <label>Send usage telemetry</label>
+                            <label class="switch">
+                                <input type="checkbox">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                        <button class="btn-secondary danger-btn" style="margin-top: 20px;">Clear Vector
+                            Database</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="app.js"></script>
+</body>
+
+</html>
