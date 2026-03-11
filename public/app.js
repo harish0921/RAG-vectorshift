@@ -94,12 +94,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function addAIMessage(text, source = "") {
+        // Parse markdown text using marked.js
+        const htmlContent = marked.parse(text);
+
         const messageHTML = `
             <div class="message ai-message">
                 <div class="message-avatar"><i class="fa-solid fa-robot"></i></div>
-                <div class="message-bubble">
-                    <p>${text}</p>
-                    ${source ? `<small>Source: ${source}</small>` : ""}
+                <div class="message-bubble markdown-body">
+                    ${htmlContent}
+                    ${source ? `<small class="source-text">Source: ${source}</small>` : ""}
                 </div>
             </div>
         `;

@@ -811,6 +811,69 @@ input:checked + .slider.round:before {
     transform: translateX(20px);
 }
 
+/* Markdown Styling */
+.markdown-body {
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+.markdown-body p {
+    margin-bottom: 12px;
+}
+.markdown-body p:last-child {
+    margin-bottom: 0;
+}
+.markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4 {
+    margin-top: 16px;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: var(--text-main);
+}
+.markdown-body h1 { font-size: 1.25rem; }
+.markdown-body h2 { font-size: 1.15rem; }
+.markdown-body h3 { font-size: 1.05rem; }
+.markdown-body ul, .markdown-body ol {
+    margin-left: 20px;
+    margin-bottom: 12px;
+}
+.markdown-body li {
+    margin-bottom: 6px;
+}
+.markdown-body strong, .markdown-body b {
+    font-weight: 600;
+}
+.markdown-body em, .markdown-body i {
+    font-style: italic;
+}
+.markdown-body code {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: rgba(0, 0, 0, 0.05);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+.markdown-body pre {
+    background-color: rgba(0, 0, 0, 0.05);
+    padding: 12px;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin-bottom: 12px;
+}
+.markdown-body pre code {
+    background-color: transparent;
+    padding: 0;
+}
+[data-theme="dark"] .markdown-body code,
+[data-theme="dark"] .markdown-body pre {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+.source-text {
+    display: block;
+    margin-top: 12px;
+    padding-top: 8px;
+    border-top: 1px solid var(--border-color);
+    color: var(--text-muted);
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .app-container {
